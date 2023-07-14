@@ -1,0 +1,1 @@
+document.getElementById("convert-btn").addEventListener("click",(function(){window.api.send("open-dialog")})),window.api.receive("selected-files",(function(e){!function(e){console.log(e,"filePaths"),e.forEach((function(e){}))}(e)}));
