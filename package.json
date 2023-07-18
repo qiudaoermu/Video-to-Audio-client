@@ -1,27 +1,24 @@
 {
-  "name": "my-electron-app",
+  "name": "electron-video-convert",
   "version": "1.0.0",
   "description": "My Electron App",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
-    "build": "webpack --mode production"
+    "start": "electron-forge start",
+    "dist": "electron-builder"
   },
+  "requires": true,
   "author": "Your Name",
   "license": "MIT",
-  "dependencies": {
-    "electron": "^12.0.5"
-  },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
-    "babel-loader": "9.1.0",
-    "electron": "^12.2.3",
+    "@electron-forge/cli": "^6.2.1",
+    "electron": "25.3.0",
+    "electron-builder": "^24.4.0",
+    "electron-squirrel-startup": "^1.0.0",
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "fluent-ffmpeg": "^2.1.2",
-    "html-webpack-plugin": "^5.5.3",
-    "moment": "^2.29.4",
-    "progress": "^2.0.3",
-    "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
+    "moment": "^2.29.4"
   }
 }

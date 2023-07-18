@@ -1,24 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 const ffmpeg = require('fluent-ffmpeg');
-const ProgressBar = require('progress');
-const moment = require('moment');
 
+
+
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path.replace('app.asar', 'app.asar.unpacked');
+ffmpeg.setFfmpegPath(ffmpegPath);
+
+
+const moment = require('moment');
+let totalTime;
 let startTime = moment(); // Start time for overall conversion process
 let totalVideos = 0; // Total number of video files
 let convertedVideos = 0; // Number of converted video files
 
-const  videoToAudio = (filePath) => {
+const videoToAudio = (filePath, sendStatusCallback) => {
   const file = path.parse(filePath);
   const outputFilePath = path.join(file.dir, file.name + '.mp3');
-
-
-  const progressBar = new ProgressBar(`Converting ${filePath} [:bar] :percent`, {
-    complete: '◼︎',
-    incomplete: '◻︎',
-    width: 20,
-    total: 100,
-  });
 
   ffmpeg(filePath)
     .noVideo()
@@ -26,7 +24,7 @@ const  videoToAudio = (filePath) => {
     .on('end', () => {
       console.log(`Successfully converted ${filePath} to audio!`);
       convertedVideos++;
-
+      sendStatusCallback(`Converting: ${filePath}`, `Successfully`);
       if (convertedVideos >= totalVideos) {
         const endTime = moment();
         const duration = moment.duration(endTime.diff(startTime));
@@ -38,11 +36,24 @@ const  videoToAudio = (filePath) => {
     .on('error', (err) => {
       console.error(`Error converting ${filePath} to audio: ${err.message}`);
     })
+    .on('codecData', data => {
+      // HERE YOU GET THE TOTAL TIME
+      totalTime = parseInt(data.duration.replace(/:/g, '')) 
+   })
     .on('progress', (progress) => {
+    
       const percent = Math.round(progress.percent);
-      progressBar.update(percent / 100);
+      // progressBar.update(percent / 100);
+      
+      // HERE IS THE CURRENT TIME
+      const time = parseInt(progress.timemark.replace(/:/g, ''))
+      
+      // AND HERE IS THE CALCULATION
+      const percents = Math.round((time / totalTime) * 100)
+
+      sendStatusCallback(`Converting: ${filePath}`, percents);
     })
     .save(outputFilePath);
-}
+};
 
-module.exports = videoToAudio
+module.exports = videoToAudio;

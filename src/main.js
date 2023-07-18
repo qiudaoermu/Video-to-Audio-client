@@ -3,10 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const videoToAudio = require("./convert.js")
 let mainWindow;
-
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1280,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -42,9 +41,15 @@ ipcMain.on('open-dialog', async (event) => {
   });
   if (!result.canceled && result.filePaths.length > 0) {
     const filePaths = result.filePaths;
-    filePaths.forEach(item => {
-      videoToAudio(item)
-    })
-    // event.reply('selected-files', filePaths);
+    event.reply('selected-files', filePaths);
   }
+});
+ipcMain.on('convert-video', (event, filePath) => {
+  videoToAudio(filePath, (statusText, percent) => {
+    mainWindow.webContents.send('conversion-status', statusText, percent, filePath);
+  });
+});
+
+ipcMain.on('conversion-status', (event, statusText, percent) => {
+  mainWindow.webContents.send('conversion-status', statusText, percent);
 });

@@ -1,0 +1,12 @@
+{
+  "mac": {
+    "target": {
+      "target": "pkg"
+    },
+    "category": "your.category"
+  },
+  "directories": {
+    "output": "dist"
+  },
+  "asar": false
+}

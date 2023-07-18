@@ -1,13 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>My Electron App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video to Audio Converter</title>
 </head>
-<body>
-  <h1>Video to Audio Conversion</h1>
-  <button id="convert-btn">Convert</button>
+<link rel="stylesheet" href="./assets/bootstrap.min.css">
+<style>
+#progress-bar-container > div {
+  margin: 10px 20px 10px 20px;
+}
+.custom-progress-bar {
+  height: 25px;
+  position: relative;
+  overflow: hidden;
+  line-height:25px;
+}
 
+.custom-progress-bar:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  z-index:-1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #DDDDDD;
+}
+
+.custom-progress-bar .progress-bar-fill {
+  background-color: #0d6efd;
+  height: 100%;
+  width: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.custom-progress-bar .progress-bar-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.custom-progress-bar.complete .progress-bar-fill {
+  width: 100%;
+}
+
+.custom-progress-bar.complete .progress-bar-text {
+}
+
+.btn-groups {
+  margin: 20px auto 20px auto;
+  text-align: center;
+  display: flex;
+  width:80%;
+  justify-content: space-around;
+}
+
+</style>
+
+<body>
+  <div>
+    <!-- <textarea id="selected-files" rows="5" cols="50" placeholder="Selected files will appear here" readonly></textarea> -->
+  </div>
+  <div class="btn-groups">
+    <button id="select-files"  type="button" class="btn btn-primary btn-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-aspect-ratio" viewBox="0 0 16 16">
+  <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+  <path d="M2 4.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H3v2.5a.5.5 0 0 1-1 0v-3zm12 7a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H13V8.5a.5.5 0 0 1 1 0v3z"/>
+</svg>
+      Select Files</button>
+    <button id="convert-btn" type="button" class="btn btn-danger btn-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-magic" viewBox="0 0 16 16">
+  <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829Zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707ZM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4Zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1h1.829Zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1h1.829ZM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707L13.293 10ZM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0v1.829Zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0L8.354 9.06Z"/>
+</svg>
+      Convert</button>
+  </div>
+  <div id="progress">
+    <div id="progress-bar"></div>
+    <div id="status"></div>
+  </div>
+
+ <!-- <div class="custom-progress-bar" id="progress-bar">
+  <div class="progress-bar-fill"></div>
+  <div class="progress-bar-text"></div>
+</div> -->
+<div id="progress-bar-container"></div>
   <script src="index.js"></script>
 </body>
+
 </html>
