@@ -16,8 +16,8 @@ jobs:
       - name: Update README
         run: |
           sed -i 's#DOWNLOAD_URL_PLACEHOLDER#NEW_DOWNLOAD_URL#g' README.md
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global qiduaoermu "${{ github.actor }}"
+          git config --global qiudaoermu@gmail.com "${{ github.actor }}@users.noreply.github.com"
           git add README.md
           git commit -m "Update download URL in README" --no-verify
           git push
