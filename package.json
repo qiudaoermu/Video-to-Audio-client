@@ -14,7 +14,7 @@
     "@electron-forge/cli": "^6.2.1",
     "electron": "25.3.0",
     "electron-builder": "^24.4.0",
-    "electron-squirrel-startup": "^1.0.0",
+    "electron-squirrel-startup": "^1.0.0"
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
