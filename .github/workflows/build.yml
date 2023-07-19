@@ -22,5 +22,5 @@ jobs:
       - name: Upload package
         uses: actions/upload-artifact@v2
         with:
-          name: my-electron-app.pkg
-          path: dist/my-electron-app.pkg
+          name: electron-video-convert.pkg
+          path: dist/electron-video-convert-1.0.0.pkg
